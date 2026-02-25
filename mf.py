@@ -26,11 +26,11 @@ class Item:
 def dot(xs: list[float], ys: list[float]) -> float:
     return sum(x * y for x, y in zip(xs, ys))
 
-def recommend(user: Latent, items: dict[any, Latent], top_n=5):
+def recommend(a: Latent, bs: dict[any, Latent], top_n=5):
     scores = []
-    for item_key, item in items.items():
-        if item_key not in user.items:
-            scores.append((item_key, dot(user.factors, item.factors)))
+    for b_key, b in bs.items():
+        if b_key not in a.items:
+            scores.append((b_key, dot(a.factors, b.factors)))
 
     scores.sort(key=lambda x: x[1], reverse=True)
 
