@@ -12,7 +12,7 @@ REG = 0.01 # L2 regularization
 EPOCHS = 250_000
 
 # get interactions
-with open('my_pacesetter_interactions_sessions.csv') as f:
+with open('my_pacesetter_interactions.csv') as f:
     reader = csv.reader(f)
     interactions = [row for row in reader] # [(user, item)...]
 
@@ -58,7 +58,7 @@ for epoch in range(EPOCHS):
     pos_item.bias += LR * (grad - REG * pos_item.bias)
     neg_item.bias += LR * (-grad - REG * neg_item.bias)
 
-    # update factors
+    # update latent factors
     for f, uf in enumerate(user.factors):
         pif = pos_item.factors[f]
         nif = neg_item.factors[f]
@@ -70,8 +70,8 @@ for epoch in range(EPOCHS):
     print("epoch", epoch, "complete", end='\r')
 
 # save matrices
-with open('./users-1.json', 'w') as f:
+with open('./users.json', 'w') as f:
     json.dump({user_key: {'factors': user.factors, 'items': list(user.items)} for user_key, user in users.items()}, f)
 
-with open('./items-1.json', 'w') as f:
+with open('./items.json', 'w') as f:
     json.dump({item_key: {'factors': item.factors, 'bias': item.bias} for item_key, item in items.items()}, f)
