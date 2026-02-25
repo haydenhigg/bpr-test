@@ -50,8 +50,8 @@ for epoch in range(EPOCHS):
     neg_item = items[neg_item_key]
 
     # compute gradient multiplier from score difference
-    pos_score = dot(user.factors, pos_item.factors)
-    neg_score = dot(user.factors, neg_item.factors)
+    pos_score = dot(user.factors, pos_item.factors) + pos_item.bias
+    neg_score = dot(user.factors, neg_item.factors) + neg_item.bias
     grad = 1.0 - sigmoid(pos_score - neg_score)
 
     # update item biases
